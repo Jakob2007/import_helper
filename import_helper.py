@@ -1,19 +1,36 @@
 
-import subprocess
 import platform
+import subprocess
+import urllib.request
+
+pl = platform.platform().lower()
+if "windows" in pl:
+	pip_command = "pip"
+elif "macos" in pl or "linux" in pl:
+	py_version = '.'.join(platform.python_version().split('.')[:2])
+	pip_command = f"pip{py_version}"
+
 
 class Helper:
+	def get_pip(logging=False) -> None:
+		
+		result = subprocess.run(pip_command, capture_output=True)
+		
+		if result.returncode == 0:
+			return
+		
+		if logging: print("pip not installed; installing ...")
+
+		url = "https://raw.githubusercontent.com/pypa/get-pip/main/public/get-pip.py"
+		response = urllib.request.urlopen(url)
+		module_code = response.read().decode("utf-8")
+		exec(module_code)
+
+		print("pip installed successfully")
+
 	# install library
 	def install(name: str, logging=False) -> None:
-		pl = platform.platform().lower()
-		if "windows" in pl:
-			command = ("pip", "install", name)
-		elif "macos" in pl or "linux" in pl:
-			py_version = '.'.join(platform.python_version().split('.')[:2])
-			command = (f"pip{py_version}", "install", name)
-		else:
-			raise Exception(f"Unsupported System: {pl}")
-		
+		command = (pip_command, "install", name)
 		result = subprocess.run(command, capture_output=True)
 
 		if result.returncode != 0:
