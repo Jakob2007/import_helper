@@ -1,7 +1,7 @@
 # import_helper
 
-With this module you can install packages right as you import them
-This module is primarily if you want to send your script to someone who isnt familiar with pip like clients or friends.
+With this module you can install packages right as you import them.
+This module is primarily if you plan to send your script to someone who is not familiar with python and pip, like clients or friends.
 
 ## Usage
 
