@@ -12,14 +12,14 @@ elif "macos" in pl or "linux" in pl:
 
 
 class Helper:
-	def get_pip(logging=False) -> None:
+	def get_pip() -> None:
 		
 		result = subprocess.run(pip_command, capture_output=True)
 		
 		if result.returncode == 0:
 			return
 		
-		if logging: print("pip not installed; installing ...")
+		print("pip not installed; installing ...")
 
 		url = "https://raw.githubusercontent.com/pypa/get-pip/main/public/get-pip.py"
 		response = urllib.request.urlopen(url)
@@ -51,7 +51,7 @@ class Helper:
 			if logging >= 1: print(f"start importing {lib_name}")
 			lib = __import__(lib_name)
 		except ImportError as e:
-			if logging >= 1: print(f"failed; installing {e.name}")
+			print(f"installing {e.name}")
 			Helper.install(e.name, logging=(logging==2))
 			
 			if logging >= 1: print("retry importing")
@@ -75,26 +75,3 @@ class Helper:
 if __name__ == "__main__":
 	print("Thanks for supporting my work\n - Jakob Sauer \033[4mFiverr.com/jakob_2\033[0m")
 	
-	# test 1:
-	if False:
-		selenium = imp("selenium")
-		By = imp_sub_lib(("selenium", "webdriver", "common", "by")).By
-		webdriver = imp_sub_lib(("selenium", "webdriver"))
-		print("test successful")
-
-	# test 2:
-	if False:
-		while True:
-			try:
-				from selenium import webdriver
-				from selenium.webdriver.common.by import By
-				# import other stuff if you want to
-			except ImportError as e:
-				print(f"installing {e.name}")
-				install(e.name)
-			else:
-				print("import successful")
-				break
-
-		print(By.XPATH)
-		print("test successful")
